@@ -1,17 +1,16 @@
 /*
- *  Lab 2
+ *  Lab 3
  *  Group 9
  *  Noa Tomas Mandorf
  *  Tyler Hager
- *  October 12, 2025
+ *  November 10, 2025
  */
 
 import SwiftUI
 
-let flowers = Bundle.main.decode([Flower].self, from: "flowers.json")
-
 struct ContentView: View {
-    var image: String?
+    @ObservedObject var viewModel: MemoryGameViewModel
+    
     var body: some View {
         ScrollView {
             VStack {
@@ -19,41 +18,40 @@ struct ContentView: View {
                     .font(.largeTitle)
                     .bold()
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 75))]) {
-                    ForEach(flowers.shuffled()) { flower in
-                            TileView(file: flower.file).aspectRatio(1, contentMode: .fit)
-                        }
+                    ForEach(viewModel.cards) { card in
+                            TileView(card: card).aspectRatio(1, contentMode: .fit)
+                                .onTapGesture {
+                                    withAnimation{
+                                        viewModel.choose(card: card)
+                                    }
+                                }
                     }
                 }
             }
-            .padding()
         }
+        .padding()
     }
+}
 
 
 
 struct TileView: View {
-    @State var isFaceUp: Bool = false
-    var file: String
+    var card: MemoryGameModel.Card
     var body: some View {
         ZStack{
             Rectangle()
                 .foregroundColor(.blue)
                 .frame(width: 75, height: 75)
                 .padding()
-                .opacity(isFaceUp ? 0 : 1)
-            Image(file)
+                .opacity(card.isFaceUp ? 0 : 1)
+            Image(card.imageFile)
                 .resizable()
                 .padding()
-                .opacity(isFaceUp ? 1 : 0)
-        }
-        .onTapGesture {
-            withAnimation{
-                isFaceUp.toggle()
-            }
+                .opacity(card.isFaceUp ? 1 : 0)
         }
     }
 }
 
 #Preview {
-    ContentView()
+    ContentView(viewModel: MemoryGameViewModel())
 }

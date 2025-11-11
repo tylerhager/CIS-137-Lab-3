@@ -1,18 +1,18 @@
 /*
- *  Lab 2
+ *  Lab 3
  *  Group 9
  *  Noa Tomas Mandorf
  *  Tyler Hager
- *  October 12, 2025
+ *  November 10, 2025
  */
 
 import SwiftUI
 
 @main
-struct Lab2App: App {
+struct CIS_137_Lab3App: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(viewModel: MemoryGameViewModel())
         }
     }
 }

@@ -1,9 +1,9 @@
 /*
- *  Lab 2
+ *  Lab 3
  *  Group 9
  *  Noa Tomas Mandorf
  *  Tyler Hager
- *  October 12, 2025
+ *  November 10, 2025
  */
 
 struct Flower: Decodable, Identifiable {
